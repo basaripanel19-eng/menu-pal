@@ -208,7 +208,7 @@ function HostScreen() {
               </div>
             </section>
           ) : (
-            <section className={isFullscreen ? "flex h-dvh flex-col" : ""}>
+            <section className={isFullscreen ? "flex h-dvh flex-col px-4 pt-3" : ""}>
               <ScoreHeader scores={data.scores} players={data.players} elapsed={elapsed} />
               <div
                 className={
@@ -217,9 +217,11 @@ function HostScreen() {
                     : "-mx-4 sm:-mx-6"
                 }
               >
-                <div className={isFullscreen ? "h-full max-h-full [&_img]:max-h-full [&_svg]:max-h-full" : ""}>
-                  <TugOfWarArena ropePosition={data.ropePosition} pulse={pulse} />
-                </div>
+                <TugOfWarArena
+                  ropePosition={data.ropePosition}
+                  pulse={pulse}
+                  fit={isFullscreen ? "height" : "width"}
+                />
                 {isFullscreen && (
                   <div className="absolute right-4 top-4 flex gap-2">
                     <button
