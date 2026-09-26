@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
-import { LogOut, Minimize2, MoreVertical } from "lucide-react";
 import QRCode from "react-qr-code";
 import tugOfWarGround from "@/assets/tug-of-war-ground.png";
 import tugOfWarPlayers from "@/assets/tug-of-war-players.png";
@@ -45,7 +44,6 @@ function HostScreen() {
   const [pulse, setPulse] = useState<1 | 2 | null>(null);
   const [lobbyOpen, setLobbyOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [fullscreenMenuOpen, setFullscreenMenuOpen] = useState(false);
   const arenaRef = useRef<HTMLDivElement>(null);
   const prevPos = useRef(0);
 
@@ -56,7 +54,6 @@ function HostScreen() {
   }, []);
 
   const toggleFullscreen = () => {
-    setFullscreenMenuOpen(false);
     if (document.fullscreenElement) {
       void document.exitFullscreen();
     } else if (arenaRef.current) {
@@ -216,7 +213,7 @@ function HostScreen() {
               <div
                 className={
                   isFullscreen
-                    ? "relative flex min-h-0 flex-1 items-center justify-center"
+                    ? "flex min-h-0 flex-1 items-center justify-center"
                     : "-mx-4 sm:-mx-6"
                 }
               >
@@ -226,44 +223,22 @@ function HostScreen() {
                   fit={isFullscreen ? "height" : "width"}
                 />
                 {isFullscreen && (
-                  <div className="absolute right-2 top-2 z-20 sm:right-4 sm:top-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      aria-label="Oyun menüsünü aç"
-                      aria-expanded={fullscreenMenuOpen}
-                      onClick={() => setFullscreenMenuOpen((open) => !open)}
-                      className="border-2 bg-panel shadow-[var(--shadow-panel)]"
+                  <div className="absolute right-4 top-4 flex gap-2">
+                    <button
+                      onClick={toggleFullscreen}
+                      className="rounded-full border-2 border-border bg-panel px-3.5 py-1.5 text-xs font-bold text-foreground hover:bg-muted"
                     >
-                      <MoreVertical aria-hidden="true" />
-                    </Button>
-                    {fullscreenMenuOpen && (
-                      <div className="absolute right-0 top-11 grid min-w-52 gap-1 rounded-[var(--radius)] border-2 border-border bg-panel p-1.5 shadow-[var(--shadow-panel)]">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={toggleFullscreen}
-                          className="justify-start rounded-[calc(var(--radius)-2px)] px-3 font-bold"
-                        >
-                          <Minimize2 aria-hidden="true" />
-                          Tam ekrandan çık
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={() => {
-                            setFullscreenMenuOpen(false);
-                            void document.exitFullscreen();
-                            void navigate({ to: "/" });
-                          }}
-                          className="justify-start rounded-[calc(var(--radius)-2px)] px-3 font-bold"
-                        >
-                          <LogOut aria-hidden="true" />
-                          Çıkış yap
-                        </Button>
-                      </div>
-                    )}
+                      TAM EKRANDAN ÇIK
+                    </button>
+                    <button
+                      onClick={() => {
+                        void document.exitFullscreen();
+                        void navigate({ to: "/" });
+                      }}
+                      className="rounded-full bg-foreground px-3.5 py-1.5 text-xs font-bold text-background"
+                    >
+                      ÇIKIŞ
+                    </button>
                   </div>
                 )}
               </div>
@@ -347,7 +322,7 @@ function ScoreHeader({
   const seconds = elapsed % 60;
   const clock = `${minutes}:${String(seconds).padStart(2, "0")}`;
   return (
-    <div className="mb-1 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:mb-2 sm:gap-3">
+    <div className="mb-1 grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:mb-2 sm:gap-3">
       <ScoreCard
         team={1}
         name={t1?.name}
@@ -395,7 +370,7 @@ function ScoreCard({
       >
         {name ? name.toUpperCase() : `TAKIM ${team}`}
       </p>
-      <p className="whitespace-nowrap text-sm font-extrabold text-foreground sm:text-base">
+      <p className="text-sm font-extrabold text-foreground sm:text-base">
         {correct}
         <span className="ml-1 text-[9px] font-semibold text-muted-foreground">
           DOĞRU
