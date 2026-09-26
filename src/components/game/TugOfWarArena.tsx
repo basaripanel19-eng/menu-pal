@@ -20,7 +20,13 @@ export function TugOfWarArena({ ropePosition = 0, pulse = null, fit = "width" }:
     : `tug-strain ${strainDuration}s ease-in-out infinite`;
 
   return (
-    <div className="relative w-full select-none overflow-hidden bg-panel">
+    <div
+      className={
+        fit === "height"
+          ? "relative mx-auto aspect-[1584/672] h-full max-w-full select-none overflow-hidden bg-panel"
+          : "relative w-full select-none overflow-hidden bg-panel"
+      }
+    >
       {/* Sabit katman: zemin asla hareket etmez */}
       <img
         src={tugOfWarGround}
@@ -31,7 +37,7 @@ export function TugOfWarArena({ ropePosition = 0, pulse = null, fit = "width" }:
         decoding="sync"
         fetchPriority="high"
         draggable={false}
-        className="block h-auto w-full"
+        className={fit === "height" ? "block h-full w-full" : "block h-auto w-full"}
       />
 
       {/* Sabit merkez çizgisi — zeminin üstünde, halat/bayrağın ALTINDA */}
