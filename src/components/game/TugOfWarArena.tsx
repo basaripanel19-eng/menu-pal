@@ -5,9 +5,11 @@ type Props = {
   /** -100 (Takım 1 kazandı) .. 0 (merkez) .. +100 (Takım 2 kazandı) */
   ropePosition?: number;
   pulse?: 1 | 2 | null;
+  /** "width": genişliğe göre (varsayılan), "height": kapsayıcı yüksekliğine sığdır (tam ekran) */
+  fit?: "width" | "height";
 };
 
-export function TugOfWarArena({ ropePosition = 0, pulse = null }: Props) {
+export function TugOfWarArena({ ropePosition = 0, pulse = null, fit = "width" }: Props) {
   const clamped = Math.max(-100, Math.min(100, ropePosition));
   // Halat gerginliği: merkeze uzaklık arttıkça daha gergin (daha hızlı zorlanma)
   const tension = Math.abs(clamped) / 100;
