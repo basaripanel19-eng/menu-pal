@@ -73,7 +73,7 @@ export function TugOfWarArena({ ropePosition = 0, pulse = null, fit = "width" }:
             decoding="sync"
             fetchPriority="high"
             draggable={false}
-            className="block h-auto w-full"
+            className={fit === "height" ? "block h-full w-full" : "block h-auto w-full"}
           />
         </div>
       </div>
